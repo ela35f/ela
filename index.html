@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erişilebilir Ulaşım</title>
+</head>
+
+<body>
+
+  <h1>Erişilebilir Ulaşım</h1>
+
+  <p id="durum">Hangi hattı bekliyorsunuz?</p>
+
+  <button onclick="dinle()">🎙️ Sesli Hat Seç</button>
+
+  <div id="sonuc"></div>
+
+  <script>
+    function dinle() {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        document.getElementById("sonuc").innerText =
+          "Bu tarayıcı sesli komutu desteklemiyor.";
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = "tr-TR";
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const hat = event.results[0][0].transcript;
+
+        document.getElementById("sonuc").innerHTML =
+          "<h2>" + hat + " hattı seçildi.</h2>" +
+          "<p>Otobüsünüz yaklaşık 5 dakika sonra.</p>" +
+          "<p>Şoföre bildirim gönderiliyor...</p>";
+      };
+    }
+  </script>
+
+</body>
+</html>
